@@ -12,4 +12,14 @@ viewBtn.addEventListener('click', (e) => {
     });
 })
 
+// password show and hide visibility
+
+function passwordVisible() {
+    let x = document.getElementById("password1");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 

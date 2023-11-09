@@ -7,15 +7,21 @@
                     <input type="hidden" name="category" value="">
                     <input type="hidden" name="author" value="">
                     <input value="" name="search" style="height: 40px;" type="text" autocomplete="false" class="form-control rounded-start" placeholder="Search notes..." />
-                    <button class="input-group-text btn btn-light" id="basic-addon2" type="submit">
+                    <button class="input-group-text btn btn-light" id="basic-addon2" type="submit"
+                    @if(!auth()->check())
+                    disabled
+                    @endif>
                         Search
                     </button>
                 </div>
             </form>
         </div>
         <div class="d-flex">
-            <div class="dropdown">
-                <a class="btn btn-dark dropdown-toggle fw-bolder fs-5" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown mt-1">
+                <a class="btn btn-dark dropdown-toggle fw-bolder fs-5" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false" 
+                @if(!auth()->check())
+                    disabled
+                @endif>
                     Notes
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -23,14 +29,14 @@
                     <li><a class="dropdown-item link-dark fw-bolder fs-5" href="#">Pinned</a></li>
                 </ul>
             </div>
+            @if (auth()->check())
             <button id="viewBtn" type="button" class="btn btn-dark fw-bolder fs-4 fa-solid fa-bars"></button>
-            <a href="" class="nav-link link-light fw-bolder fs-5">Name</a>
-            <!-- <a href="/login" class="nav-link link-light fw-bolder fs-5">Login</a>
-            <a href="/register" class="nav-link link-light fw-bolder fs-5">Register</a> -->
+            <h3 class="nav-link link-light">{{auth()->user()->name}}</h3>
             <form action="/logout" method="POST">
                 @csrf
-                <button class="btn btn-light fw-bolder fs-5">Logout</button>
+                <button type="submit" class="btn btn-light btn-link fw-bolder fs-5 mt-1">Logout</button>
             </form>
+            @endif
         </div>
     </div>
 </nav>
