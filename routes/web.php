@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
+use App\Models\Note;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\NotesController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\PinController;
 use App\Http\Middleware\AuthenticatedMiddleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +23,15 @@ Route::get('/welcome', function() {
     return view('welcome');
 });
 
-Route::get('/', [NotesController::class, 'index'])->middleware([AuthenticatedMiddleware::class]);
+Route::middleware([AuthenticatedMiddleware::class])->group(function () {
+    Route::get('/', [NoteController::class, 'index']);
+    Route::get('/notes/create', [NoteController::class, 'create']);
+    Route::post('/notes/create', [NoteController::class, 'store']);
+    Route::get('/notes/{note}/edit', [NoteController::class, 'edit']);
+    Route::post('/notes/{note}/update', [NoteController::class, 'update']);
+    Route::post('/notes/{note}/pin', [PinController::class, 'handlePin']);
+    Route::delete('/notes/{note}/delete', [NoteController::class, 'delete']);
+});
 
 Route::get('/register', [AuthController::class, 'register']);
 Route::post('/register', [AuthController::class, 'registerStore']);

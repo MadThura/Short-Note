@@ -4,9 +4,8 @@
             All
         </button>
         <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">All</a></li>
-            <li><a class="dropdown-item" href="#">Pinned</a></li>
-            <li><a class="dropdown-item" href="#">Archive</a></li>
+            <li><a class="dropdown-item" href="#pin">Pin</a></li>
+            <li><a class="dropdown-item" href="#others">Others</a></li>
         </ul>
     </div>
     <div class="btn-group">

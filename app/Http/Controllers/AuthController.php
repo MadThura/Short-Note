@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
@@ -27,8 +30,19 @@ class AuthController extends Controller
         ]);
 
         $user = User::create($cleanData);
-
         auth()->login($user);
+
+        // Create a new table for the user
+        $tableName = 'user_' . $user->id; // You can use a unique identifier for the table name
+        Schema::create($tableName, function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('body');
+            $table->string('bg_color')->default('#fff');
+            $table->boolean('pin')->default(0);
+            $table->boolean('archieve')->default(0);
+            $table->timestamps();
+        });
 
         return redirect('/')->with('success', 'Hi ' . auth()->user()->name . '! Welcome from Short Note.');
     }
