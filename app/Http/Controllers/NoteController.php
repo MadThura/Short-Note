@@ -13,8 +13,8 @@ class NoteController extends Controller
     {
         return view('index', [
             'notes' => Note::filter(request(['search', 'sortBy']))->get(),
-            'pinNotes' => Note::where('pin', true)->get(),
-            'otherNotes' => Note::where('pin', false)->get()
+            'pinNotes' => Note::where('pin', true)->filter(request(['search', 'sortBy']))->get(),
+            'otherNotes' => Note::where('pin', false)->filter(request(['search', 'sortBy']))->get()
         ]);
     }
 
@@ -28,6 +28,7 @@ class NoteController extends Controller
         $data = [
             'title' => request('title') ? request('title') : '',
             'body' => request('body') ? request('body') : '',
+            'bg_color' => request('bg_color'),
         ];
         Note::create($data);
         return redirect('/');
@@ -44,7 +45,7 @@ class NoteController extends Controller
     {
         $note->title = request('title');
         $note->body = request('body');
-
+        $note->bg_color = request('bg_color');
         $note->save();
         
         return redirect('/');

@@ -11,6 +11,9 @@
                     @endif>
                     Search
                 </button>
+                @if (request('search'))
+                <a class="btn btn-dark ms-2" href="/{{request('sortBy') ? '?sortBy='.request('sortBy') : ''}}">clear</a>
+                @endif
             </div>
         </form>
         <div class="dropdown ms-2">
