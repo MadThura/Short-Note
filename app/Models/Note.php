@@ -19,8 +19,18 @@ class Note extends Model
         if ($search = $filter['search'] ?? null) {
             $noteQuery->where(function ($query) use ($search) {
                 $query->where('title', 'LIKE', '%' . $search . '%')
-                ->orWhere('body', 'LIKE', '%' . $search . '%');
+                    ->orWhere('body', 'LIKE', '%' . $search . '%');
             });
+        }
+
+        if ($search = $filter['sortBy'] ?? null) {
+            if ($search === "Oldest") {
+                $noteQuery->oldest();
+            } else {
+                $noteQuery->latest();
+            }
+        } else {
+            $noteQuery->latest();
         }
     }
 }

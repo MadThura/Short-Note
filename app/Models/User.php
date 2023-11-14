@@ -4,13 +4,38 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Schema;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function ($user) {
+            $tableName = 'user_' . $user->id; // You can use a unique identifier for the table name
+            Schema::create($tableName, function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->text('body');
+                $table->string('bg_color')->default('#fff');
+                $table->boolean('pin')->default(0);
+                $table->boolean('archieve')->default(0);
+                $table->timestamps();
+            });
+        });
+
+        // static::deleted(function ($user) {
+        //     $tableName = 'user_' . $user->id;
+        //     Schema::dropIfExists($tableName);
+        // });
+    }
+
 
     /**
      * The attributes that are mass assignable.
@@ -42,6 +67,4 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    
 }

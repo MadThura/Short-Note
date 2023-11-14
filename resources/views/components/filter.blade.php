@@ -1,20 +1,26 @@
-<section class="container my-4 text-center" id="">
-    <div class="btn-group">
-        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            All
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#pin">Pin</a></li>
-            <li><a class="dropdown-item" href="#others">Others</a></li>
-        </ul>
-    </div>
-    <div class="btn-group">
-        <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Latest
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Latest</a></li>
-            <li><a class="dropdown-item" href="#">Oldest</a></li>
-        </ul>
+<section class="container my-4" id="">
+    <div class="d-flex justify-content-center">
+        <form action="/" style="width: 540px;">
+            <div class="input-group">
+                @if (request('sortBy'))
+                <input type="hidden" name="sortBy" value="{{request('sortBy')}}">
+                @endif
+                <input value="{{request('search') ? request('search') : ''}}" name="search" style="height: 40px;" type="text" autocomplete="false" class="form-control rounded-start" placeholder="Search notes..." />
+                <button class="input-group-text btn btn-dark" id="basic-addon2" type="submit" @if(!auth()->check())
+                    disabled
+                    @endif>
+                    Search
+                </button>
+            </div>
+        </form>
+        <div class="dropdown ms-2">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{request('sortBy') ? request('sortBy') : "Latest"}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="/?sortBy=Latest{{request('search') ? '&search='.request('search') : '' }}">Latest</a></li>
+                <li><a class="dropdown-item" href="/?sortBy=Oldest{{request('search') ? '&search='.request('search') : '' }}">Oldest</a></li>
+            </ul>
+        </div>
     </div>
 </section>

@@ -12,7 +12,7 @@ class NoteController extends Controller
     public function index()
     {
         return view('index', [
-            'notes' => Note::filter(request(['search']))->latest()->get(),
+            'notes' => Note::filter(request(['search', 'sortBy']))->get(),
             'pinNotes' => Note::where('pin', true)->get(),
             'otherNotes' => Note::where('pin', false)->get()
         ]);
