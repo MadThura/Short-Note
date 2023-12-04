@@ -32,16 +32,9 @@
                                         </div>
                                         <div class="d-flex flex-row align-items-center mb-2">
                                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                            <!-- <div class="input-group" id="show_hide_password">
-                                                <input class="form-control" type="password">
-                                                <div class="input-group-addon">
-                                                    <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                                </div>
-                                            </div> -->
                                             <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example4c">Password</label>
-                                                <input name="password" type="password" id="password1" class="form-control" required />
-                                                <input type="checkbox" onclick="passwordVisible()">Show Password 
+                                                <input name="password" type="password" class="form-control" required />
                                                 @error('password')
                                                 <p class="text-danger">{{$message}}</p>
                                                 @enderror

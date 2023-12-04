@@ -24,11 +24,17 @@
                                             <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">
                                                 <label class="form-label" for="form3Example4c">Password</label>
-                                                <input name="password" type="password" id="password1" class="form-control" required />
-                                                <input type="checkbox" onclick="passwordVisible()">Show Password
+                                                <input name="password" type="password" class="form-control" required />
                                                 @error('password')
                                                 <p class="text-danger">{{$message}}</p>
                                                 @enderror
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fa-solid fa-right-to-bracket fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label class="form-label" for="form3Example4c">Remember me</label>
+                                                <input name="remember" type="checkbox" class="form-check-input"/>
                                             </div>
                                         </div>
                                         <p>New to Short Note? <a href="/register">Click Here</a></p>

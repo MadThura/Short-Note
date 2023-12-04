@@ -6,15 +6,23 @@ use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\Nop;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class NoteController extends Controller
 {
     public function index()
     {
         return view('index', [
-            'notes' => Note::filter(request(['search', 'sortBy']))->get(),
-            'pinNotes' => Note::where('pin', true)->filter(request(['search', 'sortBy']))->get(),
-            'otherNotes' => Note::where('pin', false)->filter(request(['search', 'sortBy']))->get()
+            'notes' => Note::where('trash', false)->filter(request(['search', 'sortBy']))->get(),
+            'pinNotes' => Note::where('pin', true)->where('trash', false)->filter(request(['search', 'sortBy']))->get(),
+            'otherNotes' => Note::where('pin', false)->where('trash', false)->filter(request(['search', 'sortBy']))->get()
+        ]);
+    }
+
+    public function trash()
+    {
+        return view('notes.trash', [
+            'notes' => Note::where('trash', true)->latest()->get(),
         ]);
     }
 
@@ -47,8 +55,22 @@ class NoteController extends Controller
         $note->body = request('body');
         $note->bg_color = request('bg_color');
         $note->save();
-        
-        return redirect('/');
+
+        return back();
+    }
+
+    public function moveToTrash(Note $note)
+    {
+        $note->trash = true;
+        $note->save();
+        return back();
+    }
+
+    public function restore(Note $note)
+    {
+        $note->trash = false;
+        $note->save();
+        return back();
     }
 
     public function delete(Note $note)

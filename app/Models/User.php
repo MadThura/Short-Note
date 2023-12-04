@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -18,22 +18,25 @@ class User extends Authenticatable
     {
         parent::boot();
         static::created(function ($user) {
-            $tableName = 'user_' . $user->id; // You can use a unique identifier for the table name
+            $tableName = 'user_' . $user->id;
             Schema::create($tableName, function (Blueprint $table) {
                 $table->id();
                 $table->string('title');
                 $table->text('body');
                 $table->string('bg_color')->default('#fff');
                 $table->boolean('pin')->default(0);
-                $table->boolean('archieve')->default(0);
+                $table->boolean('trash')->default(0);
                 $table->timestamps();
             });
         });
 
-        // static::deleted(function ($user) {
-        //     $tableName = 'user_' . $user->id;
-        //     Schema::dropIfExists($tableName);
-        // });
+        static::deleting(function ($user) {
+            $tableName = 'user_' . $user->id;
+            Schema::dropIfExists($tableName);
+            if ($user->photo != "/images/M A D.png" && $path = public_path($user->photo)) {
+                File::delete($path);
+            }
+        });
     }
 
 

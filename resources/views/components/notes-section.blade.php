@@ -29,7 +29,7 @@
             <x-note-card :note="$note" />
         </div>
         @empty
-        <p class="text-center">no blogs found....</p>
+        <p class="text-center">no notes found....</p>
         @endforelse
     </div>
     @endif

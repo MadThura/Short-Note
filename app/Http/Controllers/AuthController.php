@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
@@ -32,8 +29,6 @@ class AuthController extends Controller
         $user = User::create($cleanData);
         auth()->login($user);
 
-        
-
         return redirect('/')->with('success', 'Hi ' . auth()->user()->name . '! Welcome from Short Note.');
     }
 
@@ -50,10 +45,11 @@ class AuthController extends Controller
         ], [
             'email' => "Your email doesn't exit."
         ]);
+        $remember = request('remember') ? request('remember') : 0;
         if (auth()->attempt([
             'email' => $cleanData['email'],
             'password' => $cleanData['password']
-        ])) {
+        ], $remember)) {
             return redirect('/')->with('success', 'Hi ' . auth()->user()->name . '! Welcome back from Short Note');
         } else {
             return redirect('/login')->withErrors([
@@ -67,4 +63,5 @@ class AuthController extends Controller
         auth()->logout();
         return redirect('/welcome');
     }
+
 }

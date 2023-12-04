@@ -17,9 +17,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Bootstrap modal 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 
 const viewBtn = document.getElementById("viewBtn");
 const notesContainers = document.querySelectorAll("#notesContainer");
@@ -29,15 +30,4 @@ viewBtn.addEventListener('click', (e) => {
     notesContainers.forEach(e => {
         e.classList.toggle("col-md-4");
     });
-})
-
-// password show and hide visibility
-
-function passwordVisible() {
-    let x = document.getElementById("password1");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
-}
+});

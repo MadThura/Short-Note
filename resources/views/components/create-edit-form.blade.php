@@ -1,6 +1,22 @@
 @props(['type' , 'note' => null])
+@php
+$colors = [
+'Default' => '#fff',
+'Coral' => '#FAAFA8',
+'Peach' => '#F39F76',
+'Sand' => '#FFF8B8',
+'Mint' => '#E2F6D3',
+'Sage' => '#B4DDD3',
+'Fog' => '#D4E4ED',
+'Storm' => '#AECCDC',
+'Dusk' => '#D3BFDB',
+'Blossom' => '#F6E2DD',
+'Clay' => '#E9E3D4',
+'Chalk' => '#EFEFF1'
+];
+@endphp
 <div class="modal-dialog modal-dialog-centered" style="max-width: 1200px;">
-          <div class="modal-content" style="background-color: <?= $note?->bg_color?>;">
+          <div class="modal-content" style="background-color: <?= $note?->bg_color ?>;">
                     <form action="/notes/{{$type === 'create' ? 'create' :  $note->id.'/update'}}" method="POST">
                               @csrf
                               <div class="modal-header">
@@ -13,23 +29,10 @@
                                         </div>
                                         <div class="m-0 p-3 d-flex">
                                                   <h5 class="me-2">Background color</h5>
-                                                  <select name="bg_color" class="btn-light">
-                                                            @if ($note?->bg_color)
-                                                            <option value="{{$note?->color}}" style="background-color: <?= $note?->bg_color ?>;"  selected></option>
-                                                            @endif
-                                                            <!-- <option value="#fff" style="background-color: #fff;" selected>Defult</option> -->
-                                                            <option value="#FAAFA8" style="background-color: #FAAFA8;">Coral</option>
-                                                            <option value="#F39F76" style="background-color: #F39F76;">Peach</option>
-                                                            <option value="#FFF8B8" style="background-color: #FFF8B8;">Sand</option>
-                                                            <option value="#E2F6D3" style="background-color: #E2F6D3;">Mint</option>
-                                                            <option value="#B4DDD3" style="background-color: #B4DDD3;">Sage</option>
-                                                            <option value="#D4E4ED" style="background-color: #D4E4ED;">Fog</option>
-                                                            <option value="#AECCDC" style="background-color: #AECCDC;">Storm</option>
-                                                            <option value="#D3BFDB" style="background-color: #D3BFDB;">Dusk</option>
-                                                            <option value="#F6E2DD" style="background-color: #F6E2DD;">Blossom</option>
-                                                            <option value="#E9E3D4" style="background-color: #E9E3D4;">Clay</option>
-                                                            <option value="#EFEFF1" style="background-color: #EFEFF1;">Chalk</option>
-                                                            <!-- Coral Peach Sand Mint Sage Fog Storm Dusk Blossom Clay Chalk -->
+                                                  <select name="bg_color" class="btn-light" style="background-color: <?= $note?->bg_color ?>;">
+                                                            @foreach ($colors as $colorName => $colorCode)
+                                                            <option value="{{$colorCode}}" style="background-color: <?= $colorCode ?>;" {{$note?->bg_color === $colorCode ? "selected" : ''}}>{{$colorName}}</option>
+                                                            @endforeach
                                                   </select>
                                         </div>
                                         <div class="mb-3 p-0 border-top border-3 border-dark">
